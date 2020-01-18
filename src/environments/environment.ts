@@ -3,7 +3,22 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  identityProvider: 'CirrusIdPGateway',
+  amplifyAuthCfg: {
+    Auth: {
+      oauth: {
+        domain: 'uarizona-cirrus-idp-test.auth.us-west-2.amazoncognito.com',
+        scope: ['phone', 'email', 'profile', 'openid', 'aws.cognito.signin.user.admin'],
+        redirectSignIn: 'http://localhost:4200/',
+        redirectSignOut: 'http://localhost:4200/',
+        responseType: 'code' // or token
+      },
+      region: 'us-west-2',
+      userPoolId: 'us-west-2_ZsVDSkI5z',
+      userPoolWebClientId: '6a1ellbm5tkkcpjspn0kjjitk1'
+    }
+  }
 };
 
 /*
