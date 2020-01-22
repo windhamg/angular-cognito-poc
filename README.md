@@ -66,22 +66,10 @@ private onAuthEvent(payload) {
 Finally, we provide a function for initiating the Cognito sign-in flow. We will call this function from an `onClick` event in the HTML:
 
 ```
-handleLogin(event: Event) {
-    // get current Auth config
-    const config = Auth.configure(null);
-    // retrieve pieces we need to build url
-    const {
-        domain,
-        redirectSignIn,
-        redirectSignOut,
-        responseType } = <any>config.oauth;
-    const clientId = config.userPoolWebClientId;
-    // The url of the Cognito Hosted UI
-    const url = 'https://' + domain + '/oauth2/authorize?redirect_uri=' + redirectSignIn + '&response_type=' + responseType + '&client_id=' + clientId + '&identity_provider=' + environment.identityProvider;
-    // Launch hosted UI
-    window.location.assign(url);
-}
+Auth.federatedSignIn({ provider: 'CirrusIdPGateway', customState: 'foo'});
 ```
+
+This tells Amplify to initiate the OAuth2 login flow directly with the `CirrusIdPGateway` provider, and include a custom OAuth2 `state` value, which will be returned via an `customOAuthState` event raised by the Hub (see above).
 
 #### `app.component.html`
 
