@@ -25,19 +25,15 @@ export class AppComponent {
       Auth.currentSession()
       .then(data => console.log(data))
     }
+    if (payload.event == 'customOAuthState') {
+      console.log("*** Custom OAuth state: " + payload.data);
+    }
   }
 
   handleLogin(event: Event) {
-    const config = Auth.configure(null);
-    const {
-        domain,
-        redirectSignIn,
-        redirectSignOut,
-        responseType } = <any>config.oauth;
-    const clientId = config.userPoolWebClientId;
-    // The url of the Cognito Hosted UI
-    const url = 'https://' + domain + '/oauth2/authorize?redirect_uri=' + redirectSignIn + '&response_type=' + responseType + '&client_id=' + clientId + '&identity_provider=' + environment.identityProvider;
-    // Launch hosted UI
-    window.location.assign(url);
+    // need to use @ts-ignore in order to workaround bug: https://github.com/aws-amplify/amplify-js/issues/4155
+    
+    // @ts-ignore
+    Auth.federatedSignIn({ provider: 'CirrusIdPGateway', customState: 'foo'});
   }
 }
